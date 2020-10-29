@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
+import { get } from 'lodash';
 
-const verifySessionToken = async (ctx, next) => {
+const verifySessionToken = async (req, res, next) => {
   const token = get(ctx, "request.headers.authorization", "").replace(
     /Bearer /,
     ""
@@ -8,20 +9,17 @@ const verifySessionToken = async (ctx, next) => {
 
   try {
     const decoded = await jwt.verify(token, process.env.SHOPIFY_API_SECRET_KEY);
-    ctx.state.token = decoded;
-    return next();
+    req.session_token = decoded;
+    next();
   } catch (err) {
-    if (err) {
-      Sentry.captureException(err);
-      ctx.body = JSON.stringify({ message: err.message });
-      ctx.status = 401;
-      return;
-    }
+    res.status_code = 401;
+    res.end(JSON.stringify({ message: err.message }));
   }
 };
 
 
 export default (req, res) => {
+  
   res.statusCode = 200
   res.json({ name: 'John Doe' })
 }
