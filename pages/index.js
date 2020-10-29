@@ -1,7 +1,34 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import createApp from '@shopify/app-bridge';
+import {getSessionToken} from '@shopify/app-bridge-utils';
+import React, {useEffect} from 'react';
+import Axios from 'axios';
 
 export default function Home() {
+  const app = createApp({
+    apiKey: '18dbe40547a50f351c2d1229f417ccf8'
+  })
+
+  useEffect(() => {
+    getSessionToken(app)
+    .then((sessionToken) => {
+      axios.get('/api/verify-token', {
+        headers: {
+          'Authorization': `Bearer ${sessionToken}`
+        }
+      }).then(res => {
+          console.log(res)
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  })
+
   return (
     <div className={styles.container}>
       <Head>
@@ -62,4 +89,8 @@ export default function Home() {
       </footer>
     </div>
   )
+
+  // SHOPIFY_API_KEY=18dbe40547a50f351c2d1229f417ccf8
+  // SHOPIFY_API_SECRET=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
+  
 }
