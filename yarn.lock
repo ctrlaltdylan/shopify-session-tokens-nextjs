@@ -1134,6 +1134,13 @@
   dependencies:
     mkdirp "^1.0.4"
 
+"@shopify/app-bridge-react@^1.27.2":
+  version "1.27.2"
+  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-react/-/app-bridge-react-1.27.2.tgz#8d8090cff41324ffa072ba58ac7422e6b9a14f75"
+  integrity sha512-i9Mj+VJmzi1amyd7oWbR/MUJ8yLC34NbD5sDegicxMyVAmN53Jql0vbW5uYQfkq07Yvbip1Y2a8Qm+y0WFouOA==
+  dependencies:
+    "@shopify/app-bridge" "^1.27.2"
+
 "@shopify/app-bridge-utils@^1.27.2":
   version "1.27.2"
   resolved "https://registry.yarnpkg.com/@shopify/app-bridge-utils/-/app-bridge-utils-1.27.2.tgz#822bac75d2630c06e5c048efce1f1ea205bee92c"
@@ -3232,6 +3239,11 @@ jest-worker@24.9.0:
     merge-stream "^2.0.0"
     supports-color "^6.1.0"
 
+js-cookie@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
+  integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -3872,6 +3884,11 @@ node-releases@^1.1.58, node-releases@^1.1.61:
   version "1.1.65"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.65.tgz#52d9579176bd60f23eba05c4438583f341944b81"
   integrity sha512-YpzJOe2WFIW0V4ZkJQd/DGR/zdVwc/pI4Nl1CZrBO19FdRcSTmsuhdttw9rsTzzJLrNcSloLiBbEYx1C4f6gpA==
+
+nonce@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/nonce/-/nonce-1.0.4.tgz#ee7302ade8c1bef476f301b8c91f5cc51a487612"
+  integrity sha1-7nMCrejBvvR28wG4yR9cxRpIdhI=
 
 noop-logger@^0.1.1:
   version "0.1.1"
