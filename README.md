@@ -7,7 +7,11 @@ First, set your Shopify App's public & private keys in `.local.env`:
 ```
 SHOPIFY_API_PUBLIC_KEY='your public api key from the Shopify app dashboard here'
 SHOPIFY_API_PRIVATE_KEY='your private api key from the Shopify app dashboard here'
+NEXT_PUBLIC_SHOPIFY_API_PUBLIC_KEY='same value as SHOPIFY_API_PUBLIC_KEY, this will expose your public key to the frontend'
+SHOPIFY_AUTH_CALLBACK_URL='<your-sub-domain>.ngrok.io/api/auth/callback'
 ```
+
+Then make sure your app is configured to use `<your-sub-domain>.ngrok.io/api/auth` as the entry point.
 
 Second, start up [ngrok](https://ngrok.io) and configure it to use `localhost:3000`.
 
@@ -21,17 +25,30 @@ yarn dev
 
 ## How it works
 
-In the frontend, `pages/index.js` will instantiate an AppBridge instance. Then it uses the `getSessionToken` helper to call Shopify's API for a new JWT session token.
+### OAuth Handshake
 
-Once the frontend has procured a session token, it sends a `GET /api/verify-token` request with the session token in the `Authorization` header.
+First, the OAuth flow begins at `/api/auth.js`. It will redirect to Shopify's authorization page.
 
-The backend route at `pages/api/verify_token.js` recieves this request and verifies the authenticity of this token.
+Once the user accepts your app's scopes and terms, they will be redirected to `/api/auth/callback.js`.
+
+That route will then verify the signature of the request and retrieve the merchant's Shopify access token.
+
+Now that the merchant's OAuth handshake is complete, the customer is finally redirected to `/pages/getToken.js`.
+
+### App Bridge Session Token Retrieval
+
+After the handshake is complete, in the `_app.js` the App Bridge is instantiated and the session token is retrieved.
+
+The `pages/getToken.js` is not rendered until the session token is available for consumption.
+
+Once the page loads, then an HTTP request with the session token is sent to `/api/verify-token.js` where it's decoded and validated with your app's private key.
 
 ## TODO
 
-* Implement initial OAuth handshake
-* Implement a skeleton loading page/component during session token retrieval
-* Build a context to capture the `shopOrigin` and `sessionToken` for further requests
+* Track the `nonce` in session and verify it in the `/api/auth/callback.js` route.
+* Store the access token, or abstract that to allow unopinionated storage
+* Implement a client side redirecting scheme to detect unauthorized use and return the user back to the oauth flow.
+  * For example: https://github.com/Shopify/koa-shopify-auth/blob/master/src/auth/redirection-page.ts
 
 ## Learn More
 
