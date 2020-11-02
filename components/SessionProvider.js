@@ -1,7 +1,6 @@
 import React, { useState, useEffect, createContext, useContext } from 'react'
-import { useAppBridge, Context } from "@shopify/app-bridge-react";
+import { Context } from "@shopify/app-bridge-react";
 import {getSessionToken} from '@shopify/app-bridge-utils';
-import axios from 'axios';
 
 export const SessionToken = React.createContext(false);
 

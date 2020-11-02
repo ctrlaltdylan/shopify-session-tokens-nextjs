@@ -11,6 +11,7 @@
     "@shopify/app-bridge": "^1.27.2",
     "@shopify/app-bridge-react": "^1.27.2",
     "@shopify/app-bridge-utils": "^1.27.2",
+    "@shopify/polaris": "^5.10.0",
     "axios": "^0.21.0",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",

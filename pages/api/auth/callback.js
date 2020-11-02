@@ -29,7 +29,12 @@ export default async (req, res) => {
       associated_user_scope: associatedUserScope,
       associated_user: associatedUser,
     } = accessTokenData;
-    res.redirect('https://pierces-pretzels.myshopify.com/admin/apps/real-id-dev/getToken');
+
+    // store the shop's access token in your db for future use
+ 
+    res.redirect(
+      `https://${req.query.shop}/admin/apps/${process.env.SHOPIFY_API_PUBLIC_KEY}/dashboard`
+    );
   } catch(err) {
     res.status(401).json({message: 'Unable to retrieve access token.'});
   }

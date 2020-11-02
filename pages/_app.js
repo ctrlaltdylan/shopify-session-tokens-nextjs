@@ -1,20 +1,33 @@
+import React from 'react';
 import '../styles/globals.css'
 import { Provider } from "@shopify/app-bridge-react";
 import Cookies from 'js-cookie';
 import SessionProvider from '../components/SessionProvider';
+import enTranslations from '@shopify/polaris/locales/en.json';
+import {AppProvider } from '@shopify/polaris';
+
 
 
 function MyApp({ Component, pageProps }) {
+  const shopOrigin = Cookies.get('shopOrigin');
+
+  if (!shopOrigin) {
+    return <React.Fragment><Component {...pageProps} /></React.Fragment>;
+  }
+
   const config = {
     apiKey: process.env.NEXT_PUBLIC_SHOPIFY_API_PUBLIC_KEY,
-    shopOrigin: Cookies.get("shopOrigin"),
+    forceRedirect: true,
+    shopOrigin
   };
 
   return (
     <Provider config={config}>
-      <SessionProvider>
-        <Component {...pageProps} />
-      </SessionProvider>
+      <AppProvider i18n={enTranslations}>
+        <SessionProvider>
+          <Component {...pageProps} />
+        </SessionProvider>
+      </AppProvider>
     </Provider>
   );
 }

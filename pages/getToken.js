@@ -22,6 +22,7 @@ export default function Home() {
         setResponse(res.data);
       })
       .catch((res) => {
+        debugger;
         console.log(res);
       });
   }, []);
