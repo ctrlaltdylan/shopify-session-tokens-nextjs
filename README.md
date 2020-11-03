@@ -30,7 +30,7 @@ yarn dev
 
 First, the OAuth flow begins at `/api/auth.js`. It will redirect to Shopify's authorization page. No need to do anything else besides export the build in middleware:
 
-```
+```javascript
 // pages/api/auth.js
 
 import handleAuthStart from '../../middleware/handleAuthStart';
@@ -44,7 +44,7 @@ That route will then verify the signature of the request and retrieve the mercha
 
 The `afterAuth` function is called after the access token is successfully retrieved. Use this function to store the shop's access token:
 
-```
+```javascript
 // pages/api/auth/callback.js
 import handleAuthCallback from '../../../middleware/handleAuthCallback';
 
