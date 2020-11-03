@@ -9,10 +9,22 @@ import {AppProvider } from '@shopify/polaris';
 
 
 function MyApp({ Component, pageProps }) {
-  const shopOrigin = Cookies.get('shopOrigin');
 
-  if (!shopOrigin) {
-    return <React.Fragment><Component {...pageProps} /></React.Fragment>;
+  if (typeof window == "undefined" || !window.location) {
+    return (
+      <React.Fragment>
+        <Component {...pageProps} />
+      </React.Fragment>
+    );
+  }
+
+  let shopOrigin = '';
+  const queryOrigin = new URLSearchParams(window.location.search).get('shop');
+  if(queryOrigin){
+    shopOrigin = queryOrigin;
+    localStorage.setItem('shopOrigin', queryOrigin);
+  } else {
+    shopOrigin = localStorage.getItem('shopOrigin');
   }
 
   const config = {
