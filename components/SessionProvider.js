@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext, useContext } from 'react'
 import { Context } from "@shopify/app-bridge-react";
-import {getSessionToken} from '@shopify/app-bridge-utils';
+import { getSessionToken } from '@shopify/app-bridge-utils';
 
 export const SessionToken = createContext(false);
 
@@ -15,7 +15,6 @@ export default function SessionProvider(props) {
           setSessionToken(sessionToken);
         })
         .catch((err) => {
-          debugger;
           console.log(err);
         });
     }
@@ -23,9 +22,7 @@ export default function SessionProvider(props) {
 
   return (
     <SessionToken.Provider value={sessionToken}>
-      {
-        (app && sessionToken) ? props.children : <>Loading...</>
-      }
+      {props.children}
     </SessionToken.Provider>
   )
 }

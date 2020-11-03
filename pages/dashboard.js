@@ -1,20 +1,15 @@
-import React, { useEffect, useContext, useState } from "react";
-import { SessionToken } from "../components/SessionProvider";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import useApi from '../hooks/useApi';
 
 
 export default function Dashboard() {
-  const sessionToken = useContext(SessionToken);
+  const api = useApi();
   const [response, setResponse] = useState(false);
 
   // the session token is now available for use to make authenticated requests to the our server
   useEffect(() => {
-    if(sessionToken) {
-      axios.get("/api/verify-token", {
-        headers: {
-          Authorization: `Bearer ${sessionToken}`,
-        },
-      })
+    if(api) {
+      api.get("/api/verify-token")
       .then((res) => {
         setResponse(res.data);
       })
@@ -22,7 +17,7 @@ export default function Dashboard() {
         console.log(res);
       });
     }
-  }, [sessionToken]);
+  }, [api]);
 
   return (
     <>

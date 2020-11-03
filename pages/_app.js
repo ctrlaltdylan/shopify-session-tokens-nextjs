@@ -1,10 +1,10 @@
 import React from 'react';
 import '../styles/globals.css'
 import { Provider } from "@shopify/app-bridge-react";
-import Cookies from 'js-cookie';
 import SessionProvider from '../components/SessionProvider';
 import enTranslations from '@shopify/polaris/locales/en.json';
 import {AppProvider } from '@shopify/polaris';
+import getShopOrigin from '../helpers/getShopOrigin';
 
 
 
@@ -18,14 +18,7 @@ function MyApp({ Component, pageProps }) {
     );
   }
 
-  let shopOrigin = '';
-  const queryOrigin = new URLSearchParams(window.location.search).get('shop');
-  if(queryOrigin){
-    shopOrigin = queryOrigin;
-    localStorage.setItem('shopOrigin', queryOrigin);
-  } else {
-    shopOrigin = localStorage.getItem('shopOrigin');
-  }
+  const shopOrigin = getShopOrigin();
 
   const config = {
     apiKey: process.env.NEXT_PUBLIC_SHOPIFY_API_PUBLIC_KEY,
@@ -37,7 +30,7 @@ function MyApp({ Component, pageProps }) {
     <Provider config={config}>
       <AppProvider i18n={enTranslations}>
         <SessionProvider>
-          <Component {...pageProps} />
+          { shopOrigin ? <Component {...pageProps} /> : <>Loading...</> }
         </SessionProvider>
       </AppProvider>
     </Provider>
