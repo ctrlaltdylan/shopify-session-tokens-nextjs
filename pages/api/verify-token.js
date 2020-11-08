@@ -1,4 +1,4 @@
-import withSessionToken from '../../middleware/withSessionToken';
+import { withSessionToken } from "shopify-nextjs-toolbox";
 
 const handler = async (req, res) => {
   res.statusCode = 200

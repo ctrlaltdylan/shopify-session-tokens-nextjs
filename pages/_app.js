@@ -1,20 +1,16 @@
 import React from 'react';
 import '../styles/globals.css'
 import { Provider } from "@shopify/app-bridge-react";
-import SessionProvider from '../components/SessionProvider';
+import { getShopOrigin } from 'shopify-nextjs-toolbox';
 import enTranslations from '@shopify/polaris/locales/en.json';
 import {AppProvider } from '@shopify/polaris';
-import getShopOrigin from '../helpers/getShopOrigin';
-
 
 
 function MyApp({ Component, pageProps }) {
 
   if (typeof window == "undefined" || !window.location) {
     return (
-      <React.Fragment>
-        <Component {...pageProps} />
-      </React.Fragment>
+      <></>
     );
   }
 
@@ -29,9 +25,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Provider config={config}>
       <AppProvider i18n={enTranslations}>
-        <SessionProvider>
-          { shopOrigin ? <Component {...pageProps} /> : <>Loading...</> }
-        </SessionProvider>
+        <Component {...pageProps} /> 
       </AppProvider>
     </Provider>
   );

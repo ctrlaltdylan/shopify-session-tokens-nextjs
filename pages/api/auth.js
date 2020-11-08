@@ -1,3 +1,3 @@
-import handleAuthStart from '../../middleware/handleAuthStart';
+import { handleAuthStart } from 'shopify-nextjs-toolbox';
 
-export default handleAuthStart; 
+export default handleAuthStart;
