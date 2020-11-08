@@ -26,6 +26,8 @@ yarn dev
 
 ## How it works
 
+This example app is using a set of utilities from the [shopify-nextjs-toolbox](https://www.npmjs.com/package/shopify-nextjs-toolbox) to handle Shopify's OAuth handshake and cookie-less session token generation & verification.
+
 ### OAuth Handshake
 
 First, the OAuth flow begins at `/api/auth.js`. It will redirect to Shopify's authorization page. No need to do anything else besides export the build in middleware:
@@ -33,7 +35,7 @@ First, the OAuth flow begins at `/api/auth.js`. It will redirect to Shopify's au
 ```javascript
 // pages/api/auth.js
 
-import handleAuthStart from '../../middleware/handleAuthStart';
+import { handleAuthStart } from 'shopify-nextjs-toolbox';
 
 export default handleAuthStart;
 ```
@@ -46,7 +48,7 @@ The `afterAuth` function is called after the access token is successfully retrie
 
 ```javascript
 // pages/api/auth/callback.js
-import handleAuthCallback from '../../../middleware/handleAuthCallback';
+import { handleAuthCallback } from 'shopify-nextjs-toolbox';
 
 const afterAuth = async(req, res, accessToken) => {
   // save accessToken with the shop
@@ -64,7 +66,7 @@ Now that the merchant's OAuth handshake is complete, the customer is finally red
 
 After the handshake is complete, in the `_app.js` the App Bridge is instantiated and the session token is retrieved. The shop name (aka `shopOrigin`) is transfered via a query parameter (`?shop={shop})`.
 
-The `pages/dashboard.js` is not rendered until the session token is available for consumption.
+The `pages/home.js` is not rendered until the session token is available for consumption.
 
 Once the page loads, then an HTTP request with the session token is sent to `/api/verify-token.js` where it's decoded and validated with your app's private key.
 
