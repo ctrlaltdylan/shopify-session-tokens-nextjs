@@ -12,7 +12,7 @@ SHOPIFY_AUTH_CALLBACK_URL='<your-sub-domain>.ngrok.io/api/auth/callback'
 HOME_PATH = '/dashboard' # or wherever you'd like the user to be sent to after successfully authenticating
 ```
 
-Then make sure your app is configured to use `<your-sub-domain>.ngrok.io/api/auth` as the entry point.
+Then make sure your app is configured to use `<your-sub-domain>.ngrok.io` as the entry point.
 
 Second, start up [ngrok](https://ngrok.io) and configure it to use `localhost:3000`.
 
