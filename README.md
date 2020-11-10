@@ -9,6 +9,7 @@ SHOPIFY_API_PUBLIC_KEY='your public api key from the Shopify app dashboard here'
 SHOPIFY_API_PRIVATE_KEY='your private api key from the Shopify app dashboard here'
 NEXT_PUBLIC_SHOPIFY_API_PUBLIC_KEY='same value as SHOPIFY_API_PUBLIC_KEY, this will expose your public key to the frontend'
 SHOPIFY_AUTH_CALLBACK_URL='<your-sub-domain>.ngrok.io/api/auth/callback'
+SHOPIFY_AUTH_SCOPES='read_customers,write_customers' # a comma separated list of Shopify Auth scopes your app requires to function
 HOME_PATH = '/dashboard' # or wherever you'd like the user to be sent to after successfully authenticating
 ```
 
