@@ -9,6 +9,7 @@ SHOPIFY_API_PUBLIC_KEY='your public api key from the Shopify app dashboard here'
 SHOPIFY_API_PRIVATE_KEY='your private api key from the Shopify app dashboard here'
 NEXT_PUBLIC_SHOPIFY_API_PUBLIC_KEY='same value as SHOPIFY_API_PUBLIC_KEY, this will expose your public key to the frontend'
 SHOPIFY_AUTH_CALLBACK_URL='<your-sub-domain>.ngrok.io/api/auth/callback'
+SHOPIFY_AUTH_SCOPES='read_customers,write_customers' # a comma separated list of Shopify Auth scopes your app requires to function
 HOME_PATH = '/dashboard' # or wherever you'd like the user to be sent to after successfully authenticating
 ```
 
@@ -30,7 +31,7 @@ This example app is using a set of utilities from the [shopify-nextjs-toolbox](h
 
 ### OAuth Handshake
 
-First, the OAuth flow begins at `/api/auth.js`. It will redirect to Shopify's authorization page. No need to do anything else besides export the build in middleware:
+First, the OAuth flow begins at `/api/auth.js`. It will redirect to Shopify's authorization page. No need to do anything else besides export the built in middleware:
 
 ```javascript
 // pages/api/auth.js
@@ -40,11 +41,11 @@ import { handleAuthStart } from 'shopify-nextjs-toolbox';
 export default handleAuthStart;
 ```
 
-Once the user accepts your app's scopes and terms, they will be redirected to `/api/auth/callback.js`.
+After the user accepts your app's scopes and terms, they will be redirected from Shopify to `/api/auth/callback.js`.
 
 That route will then verify the signature of the request and retrieve the merchant's Shopify access token.
 
-The `afterAuth` function is called after the access token is successfully retrieved. Use this function to store the shop's access token:
+The `afterAuth` function is called after the access token is successfully retrieved. Create your own `afterAuth` to store the shop's access token which is passed as the third argument `sessionToken`:
 
 ```javascript
 // pages/api/auth/callback.js
@@ -60,7 +61,7 @@ const afterAuth = async(req, res, accessToken) => {
 export default handleAuthCallback(afterAuth);
 ```
 
-Now that the merchant's OAuth handshake is complete, the customer is finally redirected to `/pages/dashboard.js`, or whichever path you provide in `process.env.HOME_PATH`.
+Now that the merchant's OAuth handshake is complete, the customer is finally redirected to `/pages/home.js`, or whichever path you provide in `process.env.HOME_PATH`. This route is an internal route. Meaning, it can assume that the Shopify AppBridge has a valid `shopDomain` query parameter, and the merchant is authenticated by OAuth.
 
 ### App Bridge Session Token Retrieval
 
