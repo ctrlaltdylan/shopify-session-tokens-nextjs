@@ -4805,10 +4805,8 @@ shell-quote@1.7.2:
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.2.tgz#67a7d02c76c9da24f99d20808fcaded0e0e04be2"
   integrity sha512-mRz/m/JVscCrkMyPqHc/bczi3OQHkLTqXHEFu0zDhK/qfv3UcOA4SVmRCLmos4bhjr9ekVQubj/R7waKapmiQg==
 
-shopify-nextjs-toolbox@0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/shopify-nextjs-toolbox/-/shopify-nextjs-toolbox-0.1.6.tgz#be686fb8eb5b6283fcad05f5fc8f50d53fbd93ba"
-  integrity sha512-rfl6qvtHDslxxFtR7YzT8Xj0RmBt0RsxpUzUg3iBr4OLmVZ/M0FumGVNllUMCWwyD7fCfK2Z8CUGood8y9XaWA==
+"shopify-nextjs-toolbox@file:../shopify-nextjs-toolbox":
+  version "0.1.9"
   dependencies:
     "@babel/runtime" "^7.12.1"
     axios "^0.21.0"

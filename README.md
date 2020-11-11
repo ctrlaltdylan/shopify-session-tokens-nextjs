@@ -1,4 +1,4 @@
-This is an example [Next.js](https://nextjs.org/) project consuming Shopify App Bridge Session Tokens for authentication.
+This is an example [Next.js](https://nextjs.org/) project consuming Shopify App Bridge Session Tokens for authentication using utilities from [shopify-nextjs-toolbox](https://github.com/ctrlaltdylan/shopify-nextjs-toolbox)
 
 ## Getting Started
 
