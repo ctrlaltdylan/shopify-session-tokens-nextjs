@@ -2,7 +2,7 @@ This is an example [Next.js](https://nextjs.org/) project consuming Shopify App 
 
 ## Getting Started
 
-First, set your Shopify App's public & private keys in `.local.env`:
+First, set your Shopify App's public & private keys in `.env.local`
 
 ```
 SHOPIFY_API_PUBLIC_KEY='your public api key from the Shopify app dashboard here'
