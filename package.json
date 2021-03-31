@@ -20,6 +20,6 @@
     "nonce": "^1.0.4",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "shopify-nextjs-toolbox": "file:../shopify-nextjs-toolbox"
+    "shopify-nextjs-toolbox": "0.1.12"
   }
 }
