@@ -32,3 +32,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# for easier local package development
+.yalc
