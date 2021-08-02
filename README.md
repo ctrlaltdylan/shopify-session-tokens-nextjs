@@ -31,12 +31,32 @@ This example app is using a set of utilities from the [shopify-nextjs-toolbox](h
 
 ### OAuth Handshake
 
-First, the OAuth flow begins at `/api/auth.js`. It will redirect to Shopify's authorization page. No need to do anything else besides export the built in middleware:
+When a customer opens your app, they will be directed to your app's defined homepage in your Shopify App settings.
+
+In `_app.js` use the `ShopifyAppBridgeProvider` component to check for authentication, and begin the OAuth process if a customer isn't logged in:
+
+```javascript
+// pages/_app.js
+
+function MyApp({ Component, pageProps }) {
+  // The ShopifyAppBridgeProvider abstracts starting the OAuth process
+  //   it will automatically redirect unauthenticated users to your `/api/auth.js` route
+  return (
+    <ShopifyAppBridgeProvider Component={Component} pageProps={pageProps}>
+      <AppProvider i18n={enTranslations}>
+        <Component {...pageProps} />
+      </AppProvider>
+    </ShopifyAppBridgeProvider>
+  );
+}
+```
+
+The OAuth flow begins at `/api/auth.js`. It will redirect to Shopify's authorization page. No need to do anything else besides export the built in middleware:
 
 ```javascript
 // pages/api/auth.js
 
-import { handleAuthStart } from 'shopify-nextjs-toolbox';
+import { handleAuthStart } from "shopify-nextjs-toolbox";
 
 export default handleAuthStart;
 ```
@@ -49,11 +69,11 @@ The `afterAuth` function is called after the access token is successfully retrie
 
 ```javascript
 // pages/api/auth/callback.js
-import { handleAuthCallback } from 'shopify-nextjs-toolbox';
+import { handleAuthCallback } from "shopify-nextjs-toolbox";
 
-const afterAuth = async(req, res, accessToken) => {
+const afterAuth = async (req, res, accessToken) => {
   // save accessToken with the shop
-  db.collection('shop').insertOne({name: req.query.shop, accessToken});
+  db.collection("shop").insertOne({ name: req.query.shop, accessToken });
 
   // redirect is handled by handleAuthCallback, no need to res.send() or res.redirect() here.
 };
@@ -65,7 +85,7 @@ Now that the merchant's OAuth handshake is complete, the customer is finally red
 
 ### App Bridge Session Token Retrieval
 
-After the handshake is complete, in the `_app.js` the App Bridge is instantiated and the session token is retrieved. The shop name (aka `shopOrigin`) is transfered via a query parameter (`?shop={shop})`.
+After the handshake is complete, in the `_app.js` the App Bridge is instantiated and the session token is retrieved. The host is transferred to your app by Shopify through the query param `host={host}`.
 
 The `pages/home.js` is not rendered until the session token is available for consumption.
 
@@ -73,9 +93,8 @@ Once the page loads, then an HTTP request with the session token is sent to `/ap
 
 ## TODO
 
-* Track the `nonce` in session and verify it in the `/api/auth/callback.js` route.
-* Implement a client side redirecting scheme to detect unauthorized use and return the user back to the oauth flow.
-  * For example: https://github.com/Shopify/koa-shopify-auth/blob/master/src/auth/redirection-page.ts
+- Implement a client side redirecting scheme to detect unauthorized use and return the user back to the oauth flow.
+  - For example: https://github.com/Shopify/koa-shopify-auth/blob/master/src/auth/redirection-page.ts
 
 ## Learn More
 
@@ -85,4 +104,3 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
