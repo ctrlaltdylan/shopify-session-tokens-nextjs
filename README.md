@@ -33,7 +33,7 @@ This example app is using a set of utilities from the [shopify-nextjs-toolbox](h
 
 When a customer opens your app, they will be directed to your app's defined homepage in your Shopify App settings.
 
-In `_app.js` use the `ShopifyAppBridgeProvider` component to check for authentication, and begin the OAuth process if a customer isn't logged in:
+In `_app.js` use the `ShopifyAppBridgeProvider` component to check for authentication, and automatically pass the `host` and `shop` parameters to AppBridge if available:
 
 ```javascript
 // pages/_app.js
@@ -51,7 +51,27 @@ function MyApp({ Component, pageProps }) {
 }
 ```
 
-The OAuth flow begins at `/api/auth.js`. It will redirect to Shopify's authorization page. No need to do anything else besides export the built in middleware:
+Next create a `pages/index.js` that will act as the entry point for unauthenticated merchants.
+
+`useOAuth` calls your `pages/api/auth.js` route which generates the URL needed to redirect to start OAuth.
+
+Under the hood `useOAuth` will redirect to this URl as soon as it's available to start the handshake:
+
+```javascript
+// pages/index.js
+
+import React from "react";
+import { useOAuth } from "shopify-nextjs-toolbox";
+
+export default function Index() {
+  useOAuth();
+
+  // replace this with your jazzy loading icon animation
+  return <>Loading...</>;
+}
+```
+
+The OAuth flow begins at `/api/auth.js`. It will generate the URL to the merchant's Shopify dashboard route to give back to the frontend `useOAuth` hook.
 
 ```javascript
 // pages/api/auth.js
@@ -82,6 +102,50 @@ export default handleAuthCallback(afterAuth);
 ```
 
 Now that the merchant's OAuth handshake is complete, the customer is finally redirected to `/pages/home.js`, or whichever path you provide in `process.env.HOME_PATH`. This route is an internal route. Meaning, it can assume that the Shopify AppBridge has a valid `shopDomain` query parameter, and the merchant is authenticated by OAuth.
+
+### Optional: nonce storage & validation
+
+During OAuth you can (and should) store the a unique nonce to verify Shopify's identity during the callback.
+
+We take care of generating this unqiue nonce, but we leave it up to you to store it in your database of choice during `startAuth`:
+
+```javascript
+// pages/api/auth.js
+
+import { handleAuthStart } from "shopify-nextjs-toolbox";
+
+const saveNonce = async (req, shopName, nonce) => {
+  // shopify-nextjs-toolbox does the work of generating a secure unique nonce
+  //   for better security, associate this nonce with the shop
+  //
+  // Example:
+  // await db.connect().collection('nonces').insertOne({ shopName, nonce });
+};
+
+export default handleAuthStart({ saveNonce });
+```
+
+Then, after the merchant accepts your scopes you can validate the nonce returned by Shopify in the `handleAuthCallback`:
+
+```javascript
+// pages/api/auth/callback.js
+
+import { handleAuthCallback } from "shopify-nextjs-toolbox";
+
+const validateNonce = async (nonce, req) => {
+  // retrieve the nonce associated with the current shop from OAuth
+  // validate the nonce passed into this argument matches that nonce
+};
+
+const afterAuth = async (req, res, tokenData) => {
+  const shop = req.query.shop;
+  const accessToken = tokenData.access_token;
+
+  // save the accessToken with the shop in your database to interact with the Shopify Admin API
+};
+
+export default handleAuthCallback(afterAuth, { options: { validateNonce } });
+```
 
 ### App Bridge Session Token Retrieval
 
