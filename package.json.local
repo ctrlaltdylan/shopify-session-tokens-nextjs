@@ -21,7 +21,7 @@
     "nonce": "^1.0.4",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "shopify-nextjs-toolbox": "2.0.0",
+    "shopify-nextjs-toolbox": "file:.yalc/shopify-nextjs-toolbox",
     "yalc": "^1.0.0-pre.53"
   }
 }

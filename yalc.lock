@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "shopify-nextjs-toolbox": {
+      "signature": "57e5bb9dd9893ef3076cdedd2ada79c7",
+      "file": true,
+      "replaced": "link:../shopify-nextjs-toolbox"
+    }
+  }
+}

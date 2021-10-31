@@ -10,4 +10,12 @@ const afterAuth = async (req, res, accessToken) => {
   return "/home";
 };
 
-export default handleAuthCallback(afterAuth);
+const validateNonce = async ({ nonce, req, shopName }) => {
+  // optional: validate the stored nonce from /pages/api/handleAuthStart against the nonce passed at this step
+  //   the nonce should equal the nonce you stored in saveNonce at handleAuthStart()
+  //   look up your shopName in your data store, and makes sure the nonce matches
+
+  return true;
+};
+
+export default handleAuthCallback(afterAuth, validateNonce);

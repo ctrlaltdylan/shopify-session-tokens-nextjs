@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useOAuth } from "shopify-nextjs-toolbox";
 
 export default function Index() {

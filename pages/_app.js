@@ -1,10 +1,6 @@
 import React from "react";
 import "../styles/globals.css";
 import { ShopifyAppBridgeProvider } from "shopify-nextjs-toolbox";
-// import ShopifyAppBridgeProvider from "../components/ShopifyAppBridgeProvider";
-import { Provider } from "@shopify/app-bridge-react";
-import { useHost } from "shopify-nextjs-toolbox";
-import { useShopOrigin } from "shopify-nextjs-toolbox";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 
